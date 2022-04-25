@@ -1,4 +1,5 @@
 const express = require('express');
+const article = require('../models/article');
 const Article = require('../models/article')
 const router = express.Router();
 
@@ -12,9 +13,9 @@ router.get('/',(req,res)=>{
 });
 
 router.get('/new',(req,res)=>{
-    res.render('/blog/new')});
+    res.render('new',{article:new Article()})});
 router.get('/:id',(req,res)=>{
-
+    res.send(req.params.id)
 })
 
 router.post('/',async (req,res)=>{
@@ -25,9 +26,9 @@ router.post('/',async (req,res)=>{
     })
     try{
         article = await article.save();
-        res.redirect(`/blog/${article.id}`)
+        res.redirect(`/${article.id}`)
     }catch(err){
-        res.render('/blog/new',{article: article})
+        res.render('new',{article: article})
     }
 
 })
